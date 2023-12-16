@@ -1,0 +1,33 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// ©️ AARRJJ002
+
+//@version=5
+strategy("My script")
+// study("MACD Crossover", overlay=true)
+
+// Define the length of the lookback period
+lookback = 100
+// length = 14
+
+// highestHigh = ta.highest(high, length)
+// lowestLow = ta.lowest(low, length)
+
+// demandThreshold = (highestHigh + lowestLow) / 2
+// Define the threshold for minimum demand
+demandThreshold = 2
+
+// Calculate the demand and supply levels
+demand = ta.highest(high, lookback) - low
+supply = low - ta.lowest(low, lookback)
+
+// Plot the demand and supply levels
+plot(demand, color=color.red, linewidth=2, title="Demand")
+plot(supply, color=color.blue, linewidth=2, title="Supply")
+
+// Buy when demand is above the demand threshold and supply is low
+if (demand > demandThreshold and supply < demand)
+    strategy.entry("Long", direction=strategy.long)
+
+// Sell when supply is above the demand and demand is low
+if (supply > demand and demand < demandThreshold)
+    strategy.entry("Short", strategy.short)
